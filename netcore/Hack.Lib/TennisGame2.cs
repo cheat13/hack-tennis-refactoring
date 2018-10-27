@@ -7,8 +7,8 @@ namespace Hack.Lib
         private int p1point;
         private int p2point;
 
-        private string p1res = "";
-        private string p2res = "";
+        private string p1result = "";
+        private string p2result = "";
         private string player1Name;
         private string player2Name;
 
@@ -21,88 +21,61 @@ namespace Hack.Lib
         public string GetScore()
         {
             var score = "";
-            if (p1point == p2point && p1point < 3)
+            #region equal      
+                if (p1point == p2point)
+                {
+                    score = GetScoreEqualResult();
+                }
+                #endregion equal
+            #region winner
+                else if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
+                {
+                    score = "Win for player1";
+                }
+                else if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
+                {
+                    score = "Win for player2";
+                }
+            #endregion winner
+            #region adventage
+
+                else if (p1point > p2point && p2point >= 3)
+                {
+                    score = "Advantage player1";
+                }
+
+                else if (p2point > p1point && p1point >= 3)
+                {
+                    score = "Advantage player2";
+                }
+            #endregion adventage
+            #region Not Adventage and Not win
+                else score = GetResult(p1point) + "-" + GetResult(p2point);
+            #endregion
+            return score;
+            
+        }
+
+        private string GetScoreEqualResult()
+        {
+            var score = "";
+            if (p1point < 3)
             {
-                if (p1point == 0)
-                    score = "Love";
-                if (p1point == 1)
-                    score = "Fifteen";
-                if (p1point == 2)
-                    score = "Thirty";
-                score += "-All";
+                score += GetResult(p1point) + "-All";
             }
-            if (p1point == p2point && p1point > 2)
+            if (p1point > 2)
+            {
                 score = "Deuce";
-
-            if (p1point > 0 && p2point == 0)
-            {
-                if (p1point == 1)
-                    p1res = "Fifteen";
-                if (p1point == 2)
-                    p1res = "Thirty";
-                if (p1point == 3)
-                    p1res = "Forty";
-
-                p2res = "Love";
-                score = p1res + "-" + p2res;
-            }
-            if (p2point > 0 && p1point == 0)
-            {
-                if (p2point == 1)
-                    p2res = "Fifteen";
-                if (p2point == 2)
-                    p2res = "Thirty";
-                if (p2point == 3)
-                    p2res = "Forty";
-
-                p1res = "Love";
-                score = p1res + "-" + p2res;
-            }
-
-            if (p1point > p2point && p1point < 4)
-            {
-                if (p1point == 2)
-                    p1res = "Thirty";
-                if (p1point == 3)
-                    p1res = "Forty";
-                if (p2point == 1)
-                    p2res = "Fifteen";
-                if (p2point == 2)
-                    p2res = "Thirty";
-                score = p1res + "-" + p2res;
-            }
-            if (p2point > p1point && p2point < 4)
-            {
-                if (p2point == 2)
-                    p2res = "Thirty";
-                if (p2point == 3)
-                    p2res = "Forty";
-                if (p1point == 1)
-                    p1res = "Fifteen";
-                if (p1point == 2)
-                    p1res = "Thirty";
-                score = p1res + "-" + p2res;
-            }
-
-            if (p1point > p2point && p2point >= 3)
-            {
-                score = "Advantage player1";
-            }
-
-            if (p2point > p1point && p1point >= 3)
-            {
-                score = "Advantage player2";
-            }
-
-            if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
-            {
-                score = "Win for player1";
-            }
-            if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
-            {
-                score = "Win for player2";
             }
             return score;
+        }
+
+        private string GetResult(int point)
+        {
+            if (point == 0) return "Love";
+            if (point == 1) return "Fifteen";
+            if (point == 2) return "Thirty";
+            return "Forty";
         }
 
         public void WonPoint(string player)
@@ -112,6 +85,7 @@ namespace Hack.Lib
             else
                 p2point++;
         }
+
 
     }
 }
