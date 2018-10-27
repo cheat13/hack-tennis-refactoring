@@ -22,38 +22,38 @@ namespace Hack.Lib
         {
             var score = "";
             #region equal      
-                if (p1point == p2point)
-                {
-                    score = GetScoreEqualResult();
-                }
-                #endregion equal
+            if (p1point == p2point)
+            {
+                score = GetScoreEqualResult();
+            }
+            #endregion equal
             #region winner
-                else if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
-                {
-                    score = "Win for player1";
-                }
-                else if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
-                {
-                    score = "Win for player2";
-                }
+            else if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
+            {
+                score = "Win for player1";
+            }
+            else if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
+            {
+                score = "Win for player2";
+            }
             #endregion winner
             #region adventage
 
-                else if (p1point > p2point && p2point >= 3)
-                {
-                    score = "Advantage player1";
-                }
+            else if (p1point > p2point && p2point >= 3)
+            {
+                score = "Advantage player1";
+            }
 
-                else if (p2point > p1point && p1point >= 3)
-                {
-                    score = "Advantage player2";
-                }
+            else if (p2point > p1point && p1point >= 3)
+            {
+                score = "Advantage player2";
+            }
             #endregion adventage
-            #region Not Adventage and Not win
-                else score = GetResult(p1point) + "-" + GetResult(p2point);
+            #region Not equal, Not Adventage and Not win
+            else score = string.Format("{0}-{1}", GetResult(p1point), GetResult(p2point));
             #endregion
             return score;
-            
+
         }
 
         private string GetScoreEqualResult()
@@ -61,9 +61,9 @@ namespace Hack.Lib
             var score = "";
             if (p1point < 3)
             {
-                score += GetResult(p1point) + "-All";
+                score = string.Format("{0}-All", GetResult(p1point));
             }
-            if (p1point > 2)
+            else
             {
                 score = "Deuce";
             }
